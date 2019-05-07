@@ -21,7 +21,7 @@ Any user should be able to access these routes:
     - `author` : Text
     - `link` : Text (the image url)
     - `description` : TextArea
-- `POST /gallery` to create a new gallery photo i
+- `POST /gallery` to create a new gallery photo in the database
 - `GET /gallery/:id/edit` to see a form to *edit* a gallery photo identified by the `:id` param
   - the form fields are:
     - `author` : Text
