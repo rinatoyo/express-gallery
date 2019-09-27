@@ -1,0 +1,19 @@
+<div class="navi">
+    <a href="/login">Login</a>
+    <a href="/logout">Logout</a>
+    <a href="/register">Register</a>
+    <a href="/gallery/new">New</a>
+</div>
+
+<div class="galHeader">
+    <h1>List of Gallery Photos</h1>
+</div>
+
+<div class="listing">
+    {{#each gallery}}
+    <p><img src="{{link}}" alt=""></p>
+    <p>Post ID: <a href="/gallery/{{id}}">{{id}}</a></p>
+    <p>Description: {{description}}</p>
+    <p>Username:{{users.username}}</p>
+    {{/each}}
+</div>

@@ -1,0 +1,12 @@
+{{!-- put --}}
+<a href="/">Home</a>
+<a href="/gallery/{{id}}">Go Back to Post</a>
+
+<div>{{errorMsg}}</div>
+
+<form action="/gallery/{{id}}/?_method=PUT" method="POST">
+    ID: {{id}}<br>
+    Description: <input type="text" name="description" value="{{description}}"><br>
+    URL: <input type="text" name="link" value="{{link}}"><br>
+    <input type="submit" value="Edit Post">
+</form>
