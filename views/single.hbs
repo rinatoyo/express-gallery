@@ -1,0 +1,16 @@
+<a href="/gallery">Home</a>
+<h2>This is the single gallery page</h2>
+
+{{message}}
+<p><img src="{{link}}" alt=""></p>
+<p>Description: {{description}}</p>
+<p>Username: {{users.username}}</p>
+
+<form action="/gallery/{{id}}/edit" method="GET">
+    <input type="submit" value="Edit">
+</form>
+
+<form action="/gallery/{{id}}?_method=DELETE" method="POST">
+    <input type="hidden" name='id' value={{id}}>
+    <input type="submit" value='Delete Post'>
+</form>
