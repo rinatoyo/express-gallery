@@ -53,8 +53,6 @@ passport.use(
     return new User({ username: username })
       .fetch()
       .then(user => {
-        console.log("passport use user", user);
-
         if (user === null) {
           return done(null, false, { message: "bad username or password" });
         } else {
@@ -73,21 +71,16 @@ passport.use(
         }
       })
       .catch(err => {
-        console.log("error: ", err);
         return done(err);
       });
   })
 );
 
 passport.serializeUser(function(user, done) {
-  console.log("serializing");
-
   return done(null, { id: user.id, username: user.username });
 });
 
 passport.deserializeUser(function(user, done) {
-  console.log("deserializing");
-  console.log("user", user);
   return done(null, user);
 });
 
@@ -102,13 +95,13 @@ app.use(
 app.post("/register", (req, res) => {
   bcrypt.genSalt(saltRounds, (err, salt) => {
     if (err) {
-      console.log(err);
-    } // return 500
+      res.status(500).json({ message: "Error" });
+    }
 
     bcrypt.hash(req.body.password, salt, (err, hash) => {
       if (err) {
-        console.log(err);
-      } // return 500
+        res.status(500).json({ message: "Error" });
+      }
 
       return new User({
         username: req.body.username,
@@ -116,11 +109,9 @@ app.post("/register", (req, res) => {
       })
         .save()
         .then(user => {
-          console.log("register pathway user", user);
           return res.redirect("/login.html");
         })
         .catch(err => {
-          console.log(err);
           return res.render("register", {
             message: "Error creating account"
           });
@@ -177,7 +168,6 @@ app.put("/gallery/:id", isAuthenticated, (req, res) => {
       return new req.database.Gallery({ id: req.params.id })
         .fetch({ withRelated: ["users"] })
         .then(results => {
-          console.log(results.toJSON().users.username);
           res.status(500).render(`single`, {
             description: results.toJSON().description,
             link: results.toJSON().link,
@@ -199,7 +189,6 @@ app.delete("/gallery/:id", isAuthenticated, (req, res) => {
       return new req.database.Gallery({ id: req.params.id })
         .fetch({ withRelated: ["users"] })
         .then(results => {
-          console.log(results.toJSON().users.username);
           res.status(500).render(`single`, {
             description: results.toJSON().description,
             link: results.toJSON().link,
@@ -213,7 +202,6 @@ app.delete("/gallery/:id", isAuthenticated, (req, res) => {
 app.get("/gallery", (req, res) => {
   return req.database.Gallery.fetchAll({ withRelated: ["users"] })
     .then(results => {
-      console.log(results.toJSON());
       res.status(200).render("gallery", {
         gallery: results.toJSON()
       });
@@ -238,7 +226,6 @@ app.post("/gallery", isAuthenticated, (req, res) => {
         res.status(200).redirect("/gallery");
       })
       .catch(err => {
-        console.log(err);
         res.status(500);
       });
   }
